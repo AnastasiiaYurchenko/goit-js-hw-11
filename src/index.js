@@ -12,9 +12,7 @@ const refs = {
     loadMoreBtn: document.querySelector('.load-more'),
 }
 
-
 const KEY = "34416785-706900f4c4344fdefb158122c";
-
 
 refs.form.addEventListener("submit", onFormSubmit);
 
@@ -25,12 +23,14 @@ function onFormSubmit(e) {
     console.log(value);
 
     fetchData(value)
-        .then((data) => {
-            console.log(data.hits)
-            if (data.hits.length === 0) {
+        .then(({hits}) => {
+            console.log(hits)
+            if (hits.length === 0) {
+                refs.galleryWrap.innerHTML = "";
                 Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
             } else {
-                renderGallery(data)
+                refs.galleryWrap.innerHTML = "";
+                renderGallery(hits);
             }
         })
         .catch((error) => console.log(error))
@@ -42,11 +42,36 @@ function fetchData(query) {
     return fetch(URL)
         .then((response) => {
             if (!response.ok) {
-                throw new Error (Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.'))
+                throw new Error (response.status)
             }
             return response.json()
         } )
-}
+};
+
+function renderGallery (hits) {
+    const markup = hits
+        .map((hit) => {
+        return `<div class="photo-card">
+  <img src=${hit.webformatURL} alt="${hit.tags}" loading="lazy" />
+  <div class="info">
+    <p class="info-item">
+      <b>Likes</b> ${hit.likes}
+    </p>
+    <p class="info-item">
+      <b>Views</b> ${hit.views}
+    </p>
+    <p class="info-item">
+      <b>Comments</b> ${hit.comments}
+    </p>
+    <p class="info-item">
+      <b>Downloads</b> ${hit.downloads}
+    </p>
+  </div>
+</div>`
+    })
+        .join("");
+   refs.galleryWrap.innerHTML = markup;
+};
 
 
 
