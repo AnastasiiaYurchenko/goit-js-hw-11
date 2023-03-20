@@ -6,15 +6,16 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import './css/styles.css';
 
 const refs = {
-    form: document.querySelector('.search-form'),
-    searchBtn: document.querySelector('.search-form'),
-    galleryWrap: document.querySelector('.gallery'),
-    loadMoreBtn: document.querySelector('.load-more'),
-}
+  form: document.querySelector('.search-form'),
+  // searchBtn: document.querySelector('.search-form'),
+  galleryWrap: document.querySelector('.gallery'),
+  loadMoreBtn: document.querySelector('.load-more'),
+};
 
 const KEY = "34416785-706900f4c4344fdefb158122c";
 
 refs.form.addEventListener("submit", onFormSubmit);
+
 
 function onFormSubmit(e) {
     e.preventDefault();
@@ -51,8 +52,13 @@ function fetchData(query) {
 function renderGallery (hits) {
     const markup = hits
         .map((hit) => {
-        return `<div class="photo-card">
-  <img src=${hit.webformatURL} alt="${hit.tags}" loading="lazy" />
+          return `
+          <div class="photo-card">
+            <div class="photo">
+              <a class="image-link" href="${hit.largeImageURL}">
+                <img src=${hit.webformatURL} alt="${hit.tags}" loading="lazy" />
+              </a>
+            </div>
   <div class="info">
     <p class="info-item">
       <b>Likes</b> ${hit.likes}
@@ -67,11 +73,21 @@ function renderGallery (hits) {
       <b>Downloads</b> ${hit.downloads}
     </p>
   </div>
-</div>`
+</div>
+`
     })
         .join("");
-   refs.galleryWrap.innerHTML = markup;
+  refs.galleryWrap.insertAdjacentHTML('beforeend', markup);
+  simpleLightBox.refresh();
 };
+
+const simpleLightbox = new SimpleLightbox('.gallery a', {
+  /* options */
+  captionsData: 'alt',
+  captionDelay: 300,
+});
+
+
 
 
 
