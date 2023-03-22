@@ -3,7 +3,7 @@ import Notiflix from 'notiflix';
 // import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
 // import "simplelightbox/dist/simple-lightbox.min.css";
-import './css/styles.css';
+// import './css/styles.css';
 
 const refs = {
   form: document.querySelector('.search-form'),

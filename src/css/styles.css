@@ -10,11 +10,65 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+  margin: 0;
 }
 
-/* #search-box {
+p{
+  margin: 0;
+}
+
+.search-form {
   font: inherit;
   padding: 8px;
-  max-width: 320px;
-  margin-bottom: 16px;
-} */
+  max-width: 100%;
+  margin: 0 auto;
+  background-color:blue;
+  /* outline: 1px red solid; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-form input{
+  border-radius: 4px;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background-color: darkorange;
+}
+
+.load-more{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.photo-card{
+width: calc((100% - 60px) / 3);
+}
+
+img {
+  display: block;
+  width: 100%;
+  /* height: 100%; */
+  border-radius: 4px;
+}
+
+.info {
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
