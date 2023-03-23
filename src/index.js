@@ -1,9 +1,10 @@
 import axios from "axios";
 import Notiflix from 'notiflix';
-// import SimpleLightbox from "simplelightbox";
+import './css/styles.css';
+import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
-// import "simplelightbox/dist/simple-lightbox.min.css";
-// import './css/styles.css';
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 
 const refs = {
   form: document.querySelector('.search-form'),
@@ -18,7 +19,13 @@ let currentPage = 1;
 
 refs.form.addEventListener("submit", onFormSubmit);
 refs.loadMoreBtn.style.display = "none";
-refs.loadMoreBtn.addEventListener("click", onLoadMoreBtnClick)
+refs.loadMoreBtn.addEventListener("click", onLoadMoreBtnClick);
+
+const simpleLightbox = new SimpleLightbox('.gallery a', {
+  /* options */
+  captionsData: 'alt',
+  captionDelay: 300,
+});
 
 function onFormSubmit(e) {
   e.preventDefault();
@@ -69,6 +76,7 @@ async function fetchData(query, currentPage) {
     }
     else {
       renderGallery(response.data.hits);
+      // simpleLightbox.refresh();
       if (currentPage === 1) {
         Notiflix.Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
       }
@@ -82,10 +90,11 @@ function renderGallery (hits) {
     const markup = hits
         .map((hit) => {
           return `
+          
           <div class="photo-card">
             <div class="photo">
               <a class="image-link" href="${hit.largeImageURL}">
-                <img src=${hit.webformatURL} alt="${hit.tags}" loading="lazy" />
+                <img src="${hit.webformatURL}" alt="${hit.tags}" loading="lazy" />
               </a>
             </div>
   <div class="info">
@@ -107,14 +116,8 @@ function renderGallery (hits) {
     })
         .join("");
   refs.galleryWrap.insertAdjacentHTML('beforeend', markup);
-  // simpleLightBox.refresh();
+  simpleLightbox.refresh();
 };
-
-// const simpleLightbox = new SimpleLightbox('.gallery a', {
-//   /* options */
-//   captionsData: 'alt',
-//   captionDelay: 300,
-// });
 
 function onLoadMoreBtnClick() {
   const query = refs.input.value.trim();
