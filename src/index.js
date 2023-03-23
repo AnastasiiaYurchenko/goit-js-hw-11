@@ -25,15 +25,16 @@ const simpleLightbox = new SimpleLightbox('.gallery a', {
   /* options */
   captionsData: 'alt',
   captionDelay: 300,
+  // scrollZoom: false,
 });
 
 function onFormSubmit(e) {
   e.preventDefault();
   currentPage = 1;
-    console.log("onFormSubmit");
+    // console.log("onFormSubmit");
     refs.galleryWrap.innerHTML = "";
     const value = e.target.elements.searchQuery.value.trim();
-    console.log(value);
+    // console.log(value);
   
   if (value === '') {
    return  Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
@@ -63,8 +64,8 @@ async function fetchData(query, currentPage) {
 
   try {
     const response = await axios.get(URL);
-    console.log(response);
-    console.log(response.data.totalHits)
+    // console.log(response);
+    // console.log(response.data.totalHits)
     // renderGallery(response.data.hits);
 
     if (response.data.hits.length === 0) {
@@ -121,7 +122,7 @@ function renderGallery (hits) {
 
 function onLoadMoreBtnClick() {
   const query = refs.input.value.trim();
-  console.log("onLoadMoreBtnClick", query);
+  // console.log("onLoadMoreBtnClick", query);
   currentPage += 1;
   fetchData(query, currentPage);
 }
